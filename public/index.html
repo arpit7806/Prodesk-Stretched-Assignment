@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Game Waitlist — Floor Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar__brand">
+      <span class="topbar__mark" aria-hidden="true">GW</span>
+      <div>
+        <p class="topbar__title">Game Waitlist Console</p>
+        <p class="topbar__sub">ENG-96576 · Floor Staff Terminal</p>
+      </div>
+    </div>
+    <div class="topbar__status" id="connectionStatus" role="status" aria-live="polite">
+      <span class="dot dot--ok" aria-hidden="true"></span> API connected
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <!-- Ticket intake form -->
+    <section class="panel panel--form" aria-labelledby="formHeading">
+      <h2 id="formHeading">New waitlist ticket</h2>
+      <form id="waitlistForm" novalidate>
+        <div class="field">
+          <label for="playerName">Player name</label>
+          <input type="text" id="playerName" name="playerName" autocomplete="off"
+                 aria-required="true" aria-describedby="playerNameError" />
+          <p class="field__error" id="playerNameError" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="gameTitle">Game / session</label>
+          <input type="text" id="gameTitle" name="gameTitle" autocomplete="off"
+                 aria-required="true" aria-describedby="gameTitleError" />
+          <p class="field__error" id="gameTitleError" role="alert"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="partySize">Party size</label>
+            <input type="number" id="partySize" name="partySize" min="1" max="8" value="1"
+                   aria-required="true" aria-describedby="partySizeError" />
+            <p class="field__error" id="partySizeError" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="contactPhone">Contact phone (optional)</label>
+            <input type="tel" id="contactPhone" name="contactPhone" autocomplete="off"
+                   aria-describedby="contactPhoneError" />
+            <p class="field__error" id="contactPhoneError" role="alert"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="notes">Notes (optional)</label>
+          <input type="text" id="notes" name="notes" autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn btn--primary" id="submitBtn">
+          <span class="btn__label">Add to waitlist</span>
+          <span class="spinner spinner--btn" hidden aria-hidden="true"></span>
+        </button>
+        <p class="form__note" role="status" aria-live="polite" id="formStatus"></p>
+      </form>
+    </section>
+
+    <!-- Ticket list -->
+    <section class="panel panel--list" aria-labelledby="listHeading">
+      <div class="panel__header">
+        <h2 id="listHeading">Current queue</h2>
+        <div class="filters">
+          <label for="statusFilter" class="visually-hidden">Filter by status</label>
+          <select id="statusFilter" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="waiting">Waiting</option>
+            <option value="called">Called</option>
+            <option value="seated">Seated</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <label for="gameFilter" class="visually-hidden">Search by game</label>
+          <input type="search" id="gameFilter" placeholder="Search by game…" aria-label="Search by game title" />
+          <button type="button" class="btn btn--ghost" id="refreshBtn" aria-label="Refresh queue">
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <div id="listRegion" aria-live="polite" aria-busy="false">
+        <div class="loading-state" id="loadingState" hidden>
+          <span class="spinner" aria-hidden="true"></span>
+          <p>Loading queue over the network…</p>
+        </div>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <p class="empty-state__title">No data found</p>
+          <p class="empty-state__body">Nobody's in the queue for these filters yet. New tickets will show up here the moment someone joins.</p>
+        </div>
+
+        <ul class="ticket-grid" id="ticketGrid"></ul>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
