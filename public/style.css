@@ -74,41 +74,36 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
    Top bar
 --------------------------------------------------------------------- */
 .topbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   padding: var(--space-2) var(--space-4);
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
 
-.topbar__brand { display: flex; align-items: center; gap: var(--space-2); }
-
-.topbar__mark {
-  font-family: var(--font-mono);
+.topbar__title {
+  grid-column: 2;
   font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  background: var(--color-text);
-  color: var(--color-ink-inverse);
-  border-radius: var(--radius);
-  padding: var(--space-1) 10px;
+  font-size: 17px;
+  text-align: center;
+  margin: 0;
 }
 
-.topbar__title { font-weight: 600; font-size: 16px; }
-.topbar__sub {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--color-text-muted);
-  margin-top: 2px;
-}
+.topbar__spacer { grid-column: 3; }
 
 .topbar__status {
+  grid-column: 1;
   font-size: 13px;
   color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+@media (max-width: 560px) {
+  .topbar { grid-template-columns: auto; justify-items: center; gap: 6px; }
+  .topbar__title, .topbar__status, .topbar__spacer { grid-column: 1; }
 }
 
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }

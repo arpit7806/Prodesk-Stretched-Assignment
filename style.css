@@ -1,0 +1,403 @@
+/* ---------------------------------------------------------------------
+   Design tokens — Game Waitlist Console
+   Monochromatic corporate system. No rogue hex colors: every color used
+   in this file is declared here first. Red is reserved exclusively for
+   invalid-field states, per the TRD.
+--------------------------------------------------------------------- */
+:root {
+  --color-bg: #F4F4F5;
+  --color-surface: #FFFFFF;
+  --color-surface-sunken: #EAEAEC;
+  --color-border: #D6D6DA;
+  --color-border-strong: #B7B7BD;
+  --color-text: #1B1B1F;
+  --color-text-muted: #6B6B72;
+  --color-ink-inverse: #FFFFFF;
+  --color-accent: #1B1B1F;
+  --color-danger: #B3261E;
+  --color-danger-bg: #FBEAE9;
+  --color-success-dot: #2E7D32;
+
+  --font-display: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+
+  --radius: 4px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--color-text);
+  color: var(--color-ink-inverse);
+  padding: var(--space-1) var(--space-2);
+  z-index: 100;
+}
+.skip-link:focus {
+  left: var(--space-2);
+  top: var(--space-2);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------
+   Top bar
+--------------------------------------------------------------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.topbar__brand { display: flex; align-items: center; gap: var(--space-2); }
+
+.topbar__mark {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  background: var(--color-text);
+  color: var(--color-ink-inverse);
+  border-radius: var(--radius);
+  padding: var(--space-1) 10px;
+}
+
+.topbar__title { font-weight: 600; font-size: 16px; }
+.topbar__sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.topbar__status {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot--ok { background: var(--color-success-dot); }
+.dot--down { background: var(--color-danger); }
+
+/* ---------------------------------------------------------------------
+   Layout
+--------------------------------------------------------------------- */
+.layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+
+.panel h2 { font-size: 16px; margin-bottom: var(--space-3); }
+
+.panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------------
+   Form
+--------------------------------------------------------------------- */
+.field { margin-bottom: var(--space-2); }
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--color-text);
+}
+
+input, select {
+  width: 100%;
+  font-family: var(--font-display);
+  font-size: 14px;
+  padding: 10px var(--space-1);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+input:focus, select:focus {
+  border-color: var(--color-text);
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+.field__error {
+  color: var(--color-danger);
+  font-size: 12px;
+  margin: 6px 0 0;
+  min-height: 16px;
+}
+
+.form__note {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+  min-height: 18px;
+}
+
+/* ---------------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------------- */
+.btn {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  padding: 10px var(--space-2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-ink-inverse);
+  width: 100%;
+  justify-content: center;
+}
+.btn--primary:hover { opacity: 0.9; }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn--ghost {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+.btn--ghost:hover { background: var(--color-surface-sunken); }
+
+.btn--icon {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+/* ---------------------------------------------------------------------
+   Filters
+--------------------------------------------------------------------- */
+.filters {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+.filters select, .filters input {
+  width: auto;
+  min-width: 140px;
+}
+
+/* ---------------------------------------------------------------------
+   Loading / empty states
+--------------------------------------------------------------------- */
+.loading-state, .empty-state {
+  padding: var(--space-4) var(--space-2);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.empty-state__title {
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+.empty-state__body { font-size: 13px; max-width: 40ch; margin: 0 auto; }
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-text);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-bottom: var(--space-1);
+}
+.spinner--btn {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+  margin-bottom: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; border-top-color: var(--color-border-strong); }
+}
+
+/* ---------------------------------------------------------------------
+   Ticket grid — signature element.
+   Each entry reads like a physical claim-check stub: perforated edge,
+   monospace ticket number, torn-off feel. This is the one deliberate
+   aesthetic risk in an otherwise quiet, corporate layout.
+--------------------------------------------------------------------- */
+.ticket-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-2);
+}
+
+.ticket {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-2);
+  overflow: hidden;
+}
+
+.ticket::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 76px;
+  width: 0;
+  border-left: 1px dashed var(--color-border-strong);
+}
+
+.ticket__number {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
+
+.ticket__name {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 4px 0 2px;
+}
+
+.ticket__game {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.ticket__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: var(--space-1);
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.ticket__actions {
+  display: flex;
+  gap: 6px;
+  margin-top: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.ticket__actions select {
+  width: auto;
+  font-size: 12px;
+  padding: 6px 8px;
+}
+
+/* ---------------------------------------------------------------------
+   Toast
+--------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: var(--space-3);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--color-text);
+  color: var(--color-ink-inverse);
+  padding: 10px var(--space-2);
+  border-radius: var(--radius);
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast { transition: none; }
+}
