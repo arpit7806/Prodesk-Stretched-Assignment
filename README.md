@@ -1,5 +1,6 @@
 # Game Waitlist CRUD API with Route Parameters
 **Ticket:** ENG-96576 · **Epic:** Core Infrastructure Overhaul · **Priority:** P1
+https://prodesk-stretched-assignment.vercel.app/
 
 Digital replacement for the paper/Excel game waitlist. Floor staff add players
 to a queue, update their status as they get called/seated, and remove them
